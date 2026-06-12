@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLinh Key Generator | Tạo Key Bản Quyền v11.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg-gradient: radial-gradient(ellipse at top, #0a0a2a, #000000);
+            --card-bg: linear-gradient(145deg, rgba(18, 12, 28, 0.95), rgba(10, 6, 18, 0.98));
+            --text-primary: #fff;
+            --text-secondary: #e0b0c8;
+            --accent: #ff4d88;
+            --border-color: rgba(255, 77, 136, 0.4);
+        }
+        
+        body.light-mode {
+            --bg-gradient: radial-gradient(ellipse at top, #f0f0f0, #ffffff);
+            --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.98));
+            --text-primary: #1a1a2a;
+            --text-secondary: #4a2a38;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Orbitron', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem 3rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem;
+            border-radius: 80px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #ff99cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: 0.3s;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(255, 77, 136, 0.2);
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: var(--accent);
+        }
+        
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, #0a0a2a, #000000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .login-box {
+            background: linear-gradient(145deg, #1a1228, #0f0818);
+            border-radius: 2rem;
+            padding: 2rem;
+            width: 380px;
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+        
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            background: #221a30;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: white;
+            text-align: center;
+        }
+        
+        .login-btn {
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .error-msg {
+            color: #ff4444;
+            margin-top: 10px;
+        }
+        
+        .main-content {
+            display: none;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff99cc;
+            font-family: monospace;
+        }
+        
+        .generator-panel {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ff99cc;
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a2a;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: white;
+            font-family: inherit;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-generate:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--accent);
+        }
+        
+        .key-display {
+            background: #0a0510;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px dashed var(--accent);
+            text-align: center;
+            display: none;
+        }
+        
+        .key-display span {
+            font-family: monospace;
+            font-size: 1.4rem;
+            color: #ff99cc;
+            letter-spacing: 2px;
+        }
+        
+        .copy-btn {
+            background: rgba(255, 77, 136, 0.2);
+            border: none;
+            padding: 5px 15px;
+            border-radius: 30px;
+            color: #ff99cc;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .keys-table {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-x: auto;
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        th {
+            color: #ff99cc;
+        }
+        
+        .status-active {
+            color: #00ff88;
+        }
+        
+        .status-expired {
+            color: #ff4444;
+        }
+        
+        .btn-action {
+            background: rgba(255, 77, 136, 0.2);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: #ff99cc;
+            cursor: pointer;
+            margin: 0 3px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            background: #1a1a2a;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            z-index: 2000;
+            animation: fadeInOut 3s ease;
+        }
+        
+        .expiry-warning {
+            display: none;
+            margin-bottom: 1rem;
+            padding: 14px 18px;
+            background: rgba(255, 68, 68, 0.14);
+            color: #ffb3c9;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            border-radius: 18px;
+            font-weight: 600;
+        }
+        
+        .row-expired {
+            background: rgba(255, 68, 68, 0.06);
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            15% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.6;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-overlay">
+        <div class="login-box">
+            <i class="fas fa-key" style="font-size: 3rem; color: #ff4d88; margin-bottom: 1rem;"></i>
+            <h2>🔐 KEY GENERATOR</h2>
+            <p style="margin-bottom: 1rem; color: #aaa;">Nhập mật khẩu để truy cập</p>
+            <input type="password" id="adminPassword" placeholder="Mật khẩu" autocomplete="off">
+            <button class="login-btn" id="loginBtn"><i class="fas fa-key"></i> ĐĂNG NHẬP</button>
+            <div id="loginError" class="error-msg"></div>
+            <p style="margin-top: 1rem; font-size: 0.7rem;">🔒 Khu vực quản lý key bản quyền</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content">
+        <div class="container">
+            <div class="header">
+                <div class="logo"><i class="fas fa-key"></i> TLinhX | KEY GENERATOR v11.0</div>
+                <div class="nav-links">
+                    <a onclick="showTab('generator')"><i class="fas fa-plus-circle"></i> Tạo Key</a>
+                    <a onclick="showTab('list')"><i class="fas fa-list"></i> Danh sách Key</a>
+                    <a onclick="showTab('stats')"><i class="fas fa-chart-line"></i> Thống kê</a>
+                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                    <a onclick="logout()" style="color:#ff6666;"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    <a href="index.html" style="color:#ff4d88;"><i class="fas fa-home"></i> Về trang chủ</a>
+                </div>
+            </div>
+
+            <!-- Stats Tab -->
+            <div id="statsTab">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalKeys">0</div>
+                        <div>Tổng Key</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="activeKeys">0</div>
+                        <div>Đang hoạt động</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="expiredKeys">0</div>
+                        <div>Hết hạn</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="rentedKeys">0</div>
+                        <div>Đang thuê</div>
+                    </div>
+                </div>
+                <div id="expiryWarning" class="expiry-warning"></div>
+            </div>
+
+            <!-- Generator Tab -->
+            <div id="generatorTab" class="generator-panel">
+                <div class="panel-title"><i class="fas fa-magic"></i> TẠO KEY MỚI</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Loại Key</label>
+                        <select id="keyType">
+                            <option value="permanent">💎 Vĩnh Viễn (300K)</option>
+                            <option value="month">📅 1 Tháng (200K)</option>
+                            <option value="week">📆 1 Tuần (100K)</option>
+                            <option value="day">🌞 1 Ngày (50K)</option>
+                            <option value="hour">⏰ 3 Giờ (20K)</option>
+                            <option value="source">📦 Full Source (700K)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Gán cho User</label>
+                        <input type="text" id="keyUser" placeholder="Tên khách hàng">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Contact</label>
+                        <input type="text" id="keyContact" placeholder="Telegram / Zalo / SĐT">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-cube"></i> Package</label>
+                        <select id="keyPackage">
+                            <option value="DRAGON">🐉 DRAGON</option>
+                            <option value="PHOENIX PRO">🔥 PHOENIX PRO</option>
+                            <option value="GOD TIER">👑 GOD TIER</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-generate" id="generateKeyBtn"><i class="fas fa-key"></i> TẠO KEY NGAY</button>
+                <div id="newKeyDisplay" class="key-display">
+                    <i class="fas fa-check-circle" style="color:#00ff88;"></i> Key đã tạo thành công!<br>
+                    <span id="generatedKey"></span>
+                    <button class="copy-btn" onclick="copyGeneratedKey()"><i class="fas fa-copy"></i> Sao chép</button>
+                </div>
+            </div>
+
+            <!-- List Tab -->
+            <div id="listTab" class="keys-table">
+                <div class="panel-title"><i class="fas fa-list"></i> DANH SÁCH KEY ĐÃ TẠO</div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:1rem; align-items:center; justify-content:space-between;">
+                    <div>
+                        <button id="exportKeysBtn" class="btn-action" style="background:#00cc66;">📤 Xuất JSON</button>
+                        <button id="toggleImportBtn" class="btn-action" style="background:#ffcc00; color:#0b1220;">📥 Nhập JSON</button>
+                    </div>
+                    <span style="color:#bbb; font-size:0.9rem;">Key lưu vào localStorage, mở lại vẫn giữ.</span>
+                </div>
+                <div id="importArea" style="display:none; margin-bottom:1rem;">
+                    <textarea id="importKeysJson" rows="4" style="width:100%; padding:12px; border-radius:16px; background:#12121f; border:1px solid rgba(255,255,255,0.08); color:#fff;" placeholder="Dán JSON key vào đây và nhấn Nhập"></textarea>
+                    <button id="importKeysBtn" class="btn-action" style="background:#ff4d88; margin-top:10px;">✅ Nhập key</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchKeyInput" placeholder="🔍 Tìm kiếm key, user, contact...">
+                    <select id="filterStatus">
+                        <option value="all">📌 Tất cả</option>
+                        <option value="active">🟢 Đang hoạt động</option>
+                        <option value="expired">🔴 Hết hạn</option>
+                    </select>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Loại</th>
+                                <th>Package</th>
+                                <th>User</th>
+                                <th>Contact</th>
+                                <th>Ngày tạo</th>
+                                <th>Hết hạn</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keysTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <footer>© 2026 TLinhX Key Generator | Hệ thống quản lý key bản quyền</footer>
+        </div>
+    </div>
+
+    <script>
+        // ==================== MẬT KHẨU ====================
+        var ADMIN_PASSWORD = "250409";
+
+        // ==================== DỮ LIỆU MẪU ====================
+        var keyDataList = [{
+            key: "TLINH-PERM-9XK77",
+            type: "permanent",
+            package: "GOD TIER",
+            user: "Nguyễn Văn A",
+            contact: "@anv",
+            createdAt: "2026-01-01",
+            expiry: "Vĩnh viễn",
+            status: "active"
+        }, {
+            key: "TLINH-PHX-3A8F2",
+            type: "permanent",
+            package: "PHOENIX PRO",
+            user: "Trần Thị B",
+            contact: "@tranb",
+            createdAt: "2026-01-10",
+            expiry: "Vĩnh viễn",
+            status: "active"
+        }, {
+            key: "TLINH-1M-7X2K9",
+            type: "month",
+            package: "DRAGON",
+            user: "Phạm Văn D",
+            contact: "@phamd",
+            createdAt: "2026-01-15",
+            expiry: "2026-02-15",
+            status: "active"
+        }, {
+            key: "RENT-1W-3F6H1",
+            type: "week",
+            package: "DRAGON",
+            user: "Hoàng Thị E",
+            contact: "@hoange",
+            createdAt: "2026-01-18",
+            expiry: "2026-01-25",
+            status: "active"
+        }];
+
+        function loadStoredKeys() {
+            try {
+                var saved = localStorage.getItem('tlinhx_valid_keys');
+                if (saved) {
+                    var parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.warn('Không thể đọc key từ localStorage:', e);
+            }
+            return keyDataList;
+        }
+
+        function saveKeysToStorage() {
+            try {
+                localStorage.setItem('tlinhx_valid_keys', JSON.stringify(keyDataList));
+            } catch (e) {
+                console.warn('Không thể lưu key vào localStorage:', e);
+            }
+        }
+
+        keyDataList = loadStoredKeys();
+
+        // ==================== HÀM TIỆN ÍCH ====================
+        function getTypeName(type) {
+            if (type === "permanent") return "Vĩnh Viễn";
+            if (type === "month") return "1 Tháng";
+            if (type === "week") return "1 Tuần";
+            if (type === "day") return "1 Ngày";
+            if (type === "hour") return "3 Giờ";
+            if (type === "source") return "Full Source";
+            return "Vĩnh Viễn";
+        }
+
+        function formatDate() {
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = String(d.getMonth() + 1).padStart(2, '0');
+            var day = String(d.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+
+        function formatDateTime() {
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = String(d.getMonth() + 1).padStart(2, '0');
+            var day = String(d.getDate()).padStart(2, '0');
+            var hour = String(d.getHours()).padStart(2, '0');
+            var minute = String(d.getMinutes()).padStart(2, '0');
+            return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
+        }
+
+        function parseExpiry(expiry) {
+            if (!expiry || expiry === 'Vĩnh viễn') return null;
+            var normalized = expiry.replace(' ', 'T');
+            var parsed = new Date(normalized);
+            return isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function isExpired(expiry) {
+            var date = parseExpiry(expiry);
+            return date ? date < new Date() : false;
+        }
+
+        function getExpiryDate(type) {
+            var d = new Date();
+            if (type === "hour") {
+                d.setHours(d.getHours() + 3);
+                var year = d.getFullYear();
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var day = String(d.getDate()).padStart(2, '0');
+                var hour = String(d.getHours()).padStart(2, '0');
+                return year + '-' + month + '-' + day + ' ' + hour + ':00';
+            }
+            if (type === "day") {
+                d.setDate(d.getDate() + 1);
+                var year = d.getFullYear();
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var day = String(d.getDate()).padStart(2, '0');
+                return year + '-' + month + '-' + day;
+            }
+            if (type === "week") {
+                d.setDate(d.getDate() + 7);
+                var year = d.getFullYear();
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var day = String(d.getDate()).padStart(2, '0');
+                return year + '-' + month + '-' + day;
+            }
+            if (type === "month") {
+                d.setMonth(d.getMonth() + 1);
+                var year = d.getFullYear();
+                var month = String(d.getMonth() + 1).padStart(2, '0');
+                var day = String(d.getDate()).padStart(2, '0');
+                return year + '-' + month + '-' + day;
+            }
+            return "Vĩnh viễn";
+        }
+
+        function generateKeyCode(type) {
+            var prefix = "";
+            if (type === "permanent") prefix = "PERM";
+            else if (type === "month") prefix = "MONTH";
+            else if (type === "week") prefix = "WEEK";
+            else if (type === "day") prefix = "DAY";
+            else if (type === "hour") prefix = "HOUR";
+            else if (type === "source") prefix = "SOURCE";
+            var random = Math.random().toString(36).substring(2, 8).toUpperCase();
+            return "TLINH-" + prefix + "-" + random;
+        }
+
+        // ==================== CẬP NHẬT THỐNG KÊ ====================
+        function updateStats() {
+            var today = new Date().toISOString().slice(0, 10);
+            var active = 0;
+            var expired = 0;
+            var rented = 0;
+            var changed = false;
+
+            for (var i = 0; i < keyDataList.length; i++) {
+                var k = keyDataList[i];
+                // Kiểm tra hết hạn tự động
+                if (k.status === "active" && k.expiry !== "Vĩnh viễn" && isExpired(k.expiry)) {
+                    k.status = "expired";
+                    changed = true;
+                }
+                if (k.status === "expired") {
+                    expired++;
+                } else if (k.status === "active") {
+                    active++;
+                    if (k.type !== "permanent") {
+                        rented++;
+                    }
+                }
+            }
+
+            if (changed) {
+                saveKeysToStorage();
+            }
+
+            document.getElementById("totalKeys").innerText = keyDataList.length;
+            document.getElementById("activeKeys").innerText = active;
+            document.getElementById("expiredKeys").innerText = expired;
+            document.getElementById("rentedKeys").innerText = rented;
+            showExpiryWarning(expired);
+        }
+
+        function showExpiryWarning(expiredCount) {
+            var warning = document.getElementById("expiryWarning");
+            if (!warning) return;
+            if (expiredCount > 0) {
+                warning.style.display = "block";
+                warning.innerText = "⚠️ Có " + expiredCount + " key đã hết hạn. Vui lòng thu hồi hoặc cập nhật lại thông tin.";
+            } else {
+                warning.style.display = "none";
+            }
+        }
+
+        // ==================== RENDER DANH SÁCH KEY ====================
+        function renderKeyList() {
+            var searchInput = document.getElementById("searchKeyInput");
+            var searchTerm = "";
+            if (searchInput) {
+                searchTerm = searchInput.value.toLowerCase();
+            }
+
+            var filterSelect = document.getElementById("filterStatus");
+            var filterStatus = "all";
+            if (filterSelect) {
+                filterStatus = filterSelect.value;
+            }
+
+            var filtered = [];
+            for (var i = 0; i < keyDataList.length; i++) {
+                var k = keyDataList[i];
+                var matchSearch = false;
+                if (searchTerm === "") {
+                    matchSearch = true;
+                } else {
+                    if (k.key.toLowerCase().indexOf(searchTerm) !== -1) matchSearch = true;
+                    else if (k.user.toLowerCase().indexOf(searchTerm) !== -1) matchSearch = true;
+                    else if (k.contact.toLowerCase().indexOf(searchTerm) !== -1) matchSearch = true;
+                }
+                var matchStatus = (filterStatus === "all") || (k.status === filterStatus);
+                if (matchSearch && matchStatus) {
+                    filtered.push(k);
+                }
+            }
+
+            var html = "";
+            for (var i = 0; i < filtered.length; i++) {
+                var k = filtered[i];
+                var statusClass = (k.status === "active") ? "status-active" : "status-expired";
+                var statusText = (k.status === "active") ? "🟢 Hoạt động" : "🔴 Hết hạn";
+                var rowClass = (k.status === "expired") ? "row-expired" : "";
+                html = html + "<tr class='" + rowClass + "'>";
+                html = html + "<td><code>" + k.key + "</code></td>";
+                html = html + "<td>" + getTypeName(k.type) + "</td>";
+                html = html + "<td>" + k.package + "</td>";
+                html = html + "<td>" + k.user + "</td>";
+                html = html + "<td>" + k.contact + "</td>";
+                html = html + "<td>" + k.createdAt + "</td>";
+                html = html + "<td>" + k.expiry + "</td>";
+                html = html + "<td class='" + statusClass + "'>" + statusText + "</td>";
+                html = html + "<td>";
+                html = html + "<button class='btn-action' onclick='copyKey(\"" + k.key + "\")'><i class='fas fa-copy'></i></button> ";
+                html = html + "<button class='btn-action' onclick='revokeKey(\"" + k.key + "\")'><i class='fas fa-trash'></i></button>";
+                html = html + "</td>";
+                html = html + "</tr>";
+            }
+            document.getElementById("keysTableBody").innerHTML = html;
+            updateStats();
+        }
+
+        // ==================== TẠO KEY MỚI ====================
+        function createNewKey() {
+            var typeSelect = document.getElementById("keyType");
+            var type = typeSelect.value;
+
+            var userInput = document.getElementById("keyUser");
+            var user = userInput.value.trim();
+
+            var contactInput = document.getElementById("keyContact");
+            var contact = contactInput.value.trim();
+
+            var packageSelect = document.getElementById("keyPackage");
+            var pkg = packageSelect.value;
+
+            if (user === "") {
+                showToast("❌ Vui lòng nhập tên khách hàng!");
+                return;
+            }
+            if (contact === "") {
+                showToast("❌ Vui lòng nhập thông tin liên hệ!");
+                return;
+            }
+
+            var keyCode = generateKeyCode(type);
+            var createdAt = (type === "hour") ? formatDateTime() : formatDate();
+            var expiry = getExpiryDate(type);
+
+            var newKey = {
+                key: keyCode,
+                type: type,
+                package: pkg,
+                user: user,
+                contact: contact,
+                createdAt: createdAt,
+                expiry: expiry,
+                status: "active"
+            };
+
+            keyDataList.unshift(newKey);
+            saveKeysToStorage();
+
+            // Hiển thị key vừa tạo
+            var generatedKeySpan = document.getElementById("generatedKey");
+            var newKeyDisplay = document.getElementById("newKeyDisplay");
+            generatedKeySpan.innerText = keyCode;
+            newKeyDisplay.style.display = "block";
+            showToast("✅ Key đã được tạo thành công!");
+
+            // Cập nhật lại danh sách
+            renderKeyList();
+            updateStats();
+
+            // Reset form
+            userInput.value = "";
+            contactInput.value = "";
+
+            // Tự động ẩn sau 5 giây
+            setTimeout(function() {
+                newKeyDisplay.style.display = "none";
+            }, 5000);
+        }
+
+        // ==================== HÀM HỖ TRỢ ====================
+        function showToast(msg) {
+            var toast = document.createElement("div");
+            toast.className = "toast";
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
+
+        window.copyKey = function(key) {
+            navigator.clipboard.writeText(key);
+            showToast("📋 Đã copy key: " + key);
+        };
+
+        window.copyGeneratedKey = function() {
+            var key = document.getElementById("generatedKey").innerText;
+            navigator.clipboard.writeText(key);
+            showToast("📋 Đã copy key: " + key);
+        };
+
+        window.revokeKey = function(key) {
+            if (confirm("⚠️ Bạn có chắc chắn muốn thu hồi key này?\nKhách hàng sẽ không thể sử dụng được nữa!")) {
+                for (var i = 0; i < keyDataList.length; i++) {
+                    if (keyDataList[i].key === key) {
+                        keyDataList[i].status = "expired";
+                        break;
+                    }
+                }
+                saveKeysToStorage();
+                renderKeyList();
+                showToast("🔴 Key đã bị thu hồi!");
+            }
+        };
+
+        function downloadKeysAsJson() {
+            var data = JSON.stringify(keyDataList, null, 2);
+            var blob = new Blob([data], {
+                type: 'application/json'
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'tlinhx_keys.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ Đã xuất danh sách key!');
+        }
+
+        function toggleImportArea() {
+            var area = document.getElementById('importArea');
+            area.style.display = area.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function importKeysFromJson() {
+            var raw = document.getElementById('importKeysJson').value.trim();
+            if (!raw) {
+                showToast('⚠️ Chưa có dữ liệu để nhập!');
+                return;
+            }
+            try {
+                var imported = JSON.parse(raw);
+                if (!Array.isArray(imported)) throw new Error('Dữ liệu không đúng định dạng');
+                imported.forEach(function(item) {
+                    if (item.key && item.type) {
+                        keyDataList.unshift(item);
+                    }
+                });
+                saveKeysToStorage();
+                renderKeyList();
+                updateStats();
+                document.getElementById('importKeysJson').value = '';
+                showToast('✅ Đã nhập key thành công!');
+            } catch (e) {
+                showToast('❌ Dữ liệu JSON không hợp lệ!');
+            }
+        }
+
+        // ==================== CHUYỂN TAB ====================
+        window.showTab = function(tab) {
+            var generatorTab = document.getElementById("generatorTab");
+            var listTab = document.getElementById("listTab");
+            var statsTab = document.getElementById("statsTab");
+
+            if (tab === "generator") {
+                generatorTab.style.display = "block";
+                listTab.style.display = "none";
+                statsTab.style.display = "none";
+            } else if (tab === "list") {
+                generatorTab.style.display = "none";
+                listTab.style.display = "block";
+                statsTab.style.display = "none";
+                renderKeyList();
+            } else if (tab === "stats") {
+                generatorTab.style.display = "none";
+                listTab.style.display = "none";
+                statsTab.style.display = "block";
+                updateStats();
+            }
+        };
+
+        // ==================== LOGIN ====================
+        function checkLogin() {
+            var isLoggedIn = sessionStorage.getItem("keyGenLoggedIn");
+            var loginScreen = document.getElementById("loginScreen");
+            var mainContent = document.getElementById("mainContent");
+
+            if (isLoggedIn === "true") {
+                loginScreen.style.display = "none";
+                mainContent.style.display = "block";
+                showTab("generator");
+                renderKeyList();
+                updateStats();
+            } else {
+                loginScreen.style.display = "flex";
+                mainContent.style.display = "none";
+            }
+        }
+
+        document.getElementById("loginBtn").onclick = function() {
+            var pwdInput = document.getElementById("adminPassword");
+            var pwd = pwdInput.value;
+            var errorDiv = document.getElementById("loginError");
+
+            if (pwd === ADMIN_PASSWORD) {
+                sessionStorage.setItem("keyGenLoggedIn", "true");
+                checkLogin();
+            } else {
+                errorDiv.innerText = "❌ Mật khẩu không chính xác!";
+            }
+        };
+
+        document.getElementById("adminPassword").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("loginBtn").click();
+            }
+        });
+
+        window.logout = function() {
+            sessionStorage.removeItem("keyGenLoggedIn");
+            checkLogin();
+        };
+
+        // ==================== GÁN SỰ KIỆN ====================
+        document.getElementById("generateKeyBtn").onclick = createNewKey;
+
+        var searchInput = document.getElementById("searchKeyInput");
+        if (searchInput) {
+            searchInput.addEventListener("input", function() {
+                renderKeyList();
+            });
+        }
+
+        var filterSelect = document.getElementById("filterStatus");
+        if (filterSelect) {
+            filterSelect.addEventListener("change", function() {
+                renderKeyList();
+            });
+        }
+
+        var exportBtn = document.getElementById('exportKeysBtn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
+                downloadKeysAsJson();
+            });
+        }
+
+        var toggleImportBtn = document.getElementById('toggleImportBtn');
+        if (toggleImportBtn) {
+            toggleImportBtn.addEventListener('click', function() {
+                toggleImportArea();
+            });
+        }
+
+        var importBtn = document.getElementById('importKeysBtn');
+        if (importBtn) {
+            importBtn.addEventListener('click', function() {
+                importKeysFromJson();
+            });
+        }
+
+        // Dark Mode
+        var isDark = true;
+        var themeToggle = document.getElementById("themeToggle");
+        if (themeToggle) {
+            themeToggle.onclick = function() {
+                document.body.classList.toggle("light-mode");
+                isDark = !isDark;
+                this.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            };
+        }
+
+        // Tự động kiểm tra hết hạn mỗi phút
+        setInterval(function() {
+            updateStats();
+            var currentTab = document.getElementById("listTab").style.display;
+            if (currentTab === "block") {
+                renderKeyList();
+            }
+        }, 60000);
+
+        // Khởi chạy
+        checkLogin();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLinh Tool Runner | Kích hoạt key và chạy tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg-gradient: radial-gradient(ellipse at top, #0a0a2a, #000000);
+            --card-bg: linear-gradient(145deg, rgba(18, 12, 28, 0.95), rgba(10, 6, 18, 0.98));
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent: #ff4d88;
+            --border-color: rgba(255, 77, 136, 0.4);
+        }
+        
+        body.light-mode {
+            --bg-gradient: radial-gradient(ellipse at top, #f0f0f0, #ffffff);
+            --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.98));
+            --text-primary: #1a1a2a;
+            --text-secondary: #4a4a38;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Orbitron', sans-serif;
+            min-height: 100vh;
+            color: var(--text-primary);
+            background: var(--bg-gradient);
+            transition: all 0.3s;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 3rem;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            border-radius: 80px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #ff99cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .nav-links a,
+        .nav-links button {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links button:hover {
+            color: var(--accent);
+            background: rgba(255, 77, 136, 0.15);
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 1.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tool-card .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .tool-card label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+        
+        .tool-card input,
+        .tool-card textarea,
+        .tool-card select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-card button {
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding: 14px 22px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .tool-card button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .status-box {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .status-pill {
+            padding: 12px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+        
+        .tool-panel {
+            display: none;
+            gap: 1.5rem;
+        }
+        
+        .tool-panel.active {
+            display: grid;
+        }
+        
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem;
+        }
+        
+        .info-box h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .info-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-list li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .log-area {
+            background: #070715;
+            border-radius: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #cee6ff;
+            min-height: 180px;
+            overflow-y: auto;
+        }
+        
+        .log-line {
+            margin-bottom: 0.75rem;
+        }
+        
+        .expired-row {
+            background: rgba(255, 68, 68, 0.08);
+        }
+        
+        .status-active {
+            color: #8cff9e;
+            font-weight: 700;
+        }
+        
+        .status-expired {
+            color: #ff8f8f;
+            font-weight: 700;
+        }
+        
+        .tool-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .tool-actions button,
+        .tool-actions a {
+            min-width: 160px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: var(--accent);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 30px;
+            z-index: 9999;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            animation: fadeInOut 3s ease forwards;
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            15% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo"><i class="fas fa-rocket"></i> TLinh TOOL RUNNER</div>
+            <div class="nav-links">
+                <a href="index.html">Trang chủ</a>
+                <a href="keygen.html">Key Generator</a>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div class="hero">
+            <h1>Chạy tool nhanh, kích hoạt key ngay trên web</h1>
+            <p>Nhập key của bạn để kích hoạt quyền truy cập công cụ. Sau khi nhập hợp lệ, trang sẽ mở khóa hướng dẫn chạy tool Facebook và cho phép bạn sao chép script dễ dàng.</p>
+        </div>
+
+        <div class="tool-card">
+            <div class="card-title"><i class="fas fa-key"></i> Kích hoạt key</div>
+            <label for="inputKey">Nhập key</label>
+            <input type="text" id="inputKey" placeholder="Nhập key của bạn ở đây...">
+            <div class="tool-actions">
+                <button id="activateBtn"><i class="fas fa-check-circle"></i> Kích hoạt ngay</button>
+                <button id="clearKeyBtn" style="background:rgba(255,255,255,0.08);color:#fff;">Xóa key hiện tại</button>
+            </div>
+            <div class="status-box" id="statusBox">
+                <div class="status-pill" id="statusText">Key chưa được kích hoạt</div>
+                <div class="status-pill" id="statusType" style="display:none;"></div>
+                <div class="status-pill" id="statusExpiry" style="display:none;"></div>
+            </div>
+        </div>
+
+        <div class="tool-panel" id="toolPanel">
+            <div class="info-box">
+                <h3><i class="fas fa-shield-alt"></i> Tool Control Panel</h3>
+                <ul class="info-list">
+                    <li><strong>Key hiện tại:</strong> <span id="activeKeyDisplay">-</span></li>
+                    <li><strong>Trạng thái:</strong> <span id="activeStatus"></span></li>
+                    <li><strong>Phân quyền:</strong> <span id="activePackage"></span></li>
+                    <li><strong>Hết hạn:</strong> <span id="activeExpiry"></span></li>
+                </ul>
+                <div class="tool-actions">
+                    <button id="openFacebookBtn"><i class="fab fa-facebook"></i> Mở Facebook</button>
+                    <button id="copyInstructionBtn"><i class="fas fa-copy"></i> Sao chép hướng dẫn</button>
+                    <a id="downloadScriptBtn" href="src%20hello%20kitty.js" download class="button" style="display:inline-flex; align-items:center; justify-content:center; text-decoration:none; color:white;">Tải Script</a>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-list"></i> Danh sách key hợp lệ</h3>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:1rem;">
+                    <button id="refreshKeysBtn" class="btn-action" style="background:#00cc66; color:#0b1220;">🔄 Làm mới</button>
+                    <button id="clearExpiredBtn" class="btn-action" style="background:#ff4444; color:#0b1220;">🧹 Xóa expired</button>
+                    <button id="exportKeysBtn" class="btn-action" style="background:#ffcc00; color:#0b1220;">📤 Xuất JSON</button>
+                    <button id="toggleImportBtn" class="btn-action" style="background:#ff99cc; color:#0b1220;">📥 Nhập JSON</button>
+                    <button id="importKeysFileBtn" class="btn-action" style="background:#00bcff; color:#0b1220;">📄 Chọn file JSON</button>
+                    <button id="openKeygenBtn" class="btn-action" style="background:#ff4d88;">🔑 Mở Key Generator</button>
+                </div>
+                <div id="importKeysArea" style="display:none; margin-bottom:1rem;">
+                    <textarea id="importKeysJson" rows="4" placeholder="Dán JSON key tại đây..." style="width:100%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:16px; color:var(--text-primary); padding:12px; margin-bottom:10px;"></textarea>
+                    <button id="importKeysBtn" class="btn-action" style="background:#ff4d88; color:#0b1220;">Nhập key</button>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:1rem;">
+                    <input id="toolKeySearch" type="text" placeholder="Tìm kiếm key / user / package..." style="flex:1; min-width:220px; padding:12px; border-radius:16px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text-primary);">
+                    <select id="toolFilterStatus" style="padding:12px 14px; border-radius:16px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:var(--text-primary);">
+                        <option value="all">Tất cả</option>
+                        <option value="active">Hoạt động</option>
+                        <option value="expired">Hết hạn</option>
+                    </select>
+                </div>
+                <div id="toolKeyStats" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:1rem; color:var(--text-secondary);"></div>
+                <input type="file" id="importKeysFile" accept="application/json" style="display:none;">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">Key</th>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">Gói</th>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">User</th>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">Hết hạn</th>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">Trạng thái</th>
+                                <th style="padding:10px; color:#ff99cc; text-align:left;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="validKeysTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Hướng dẫn nhanh</h3>
+                <ul class="info-list">
+                    <li>Mở Facebook ở tab mới.</li>
+                    <li>Cài Tampermonkey / Greasemonkey.</li>
+                    <li>Tạo userscript mới và dán nội dung từ file <strong>src hello kitty.js</strong>.</li>
+                    <li>Sử dụng key kích hoạt để chạy công cụ.</li>
+                </ul>
+                <textarea id="toolHint" rows="8" readonly style="background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color: var(--text-primary); width:100%; border-radius:16px; padding:16px;">Sau khi kích hoạt, mở file src hello kitty.js và sao chép nội dung vào Tampermonkey hoặc mở file tải về để dán trực tiếp vào extension.</textarea>
+            </div>
+
+            <div class="info-box" style="grid-column:1 / -1;">
+                <h3><i class="fas fa-terminal"></i> Nhật ký hoạt động</h3>
+                <div class="log-area" id="toolLog">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var defaultKeys = [{
+            key: "TLINH-PERM-9XK77",
+            type: "Vĩnh viễn",
+            package: "GOD TIER",
+            expiry: "Vĩnh viễn",
+            status: "active"
+        }, {
+            key: "TLINH-PHX-3A8F2",
+            type: "Vĩnh viễn",
+            package: "PHOENIX PRO",
+            expiry: "Vĩnh viễn",
+            status: "active"
+        }, {
+            key: "TLINH-1M-7X2K9",
+            type: "1 Tháng",
+            package: "DRAGON",
+            expiry: "2026-02-15",
+            status: "active"
+        }, {
+            key: "RENT-1W-3F6H1",
+            type: "1 Tuần",
+            package: "DRAGON",
+            expiry: "2026-01-25",
+            status: "active"
+        }];
+
+        function loadKeyRegistry() {
+            try {
+                var raw = localStorage.getItem('tlinhx_valid_keys');
+                if (raw) {
+                    var parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        var changed = false;
+                        parsed.forEach(function(k) {
+                            if (k.status === 'active' && isExpired(k.expiry)) {
+                                k.status = 'expired';
+                                changed = true;
+                            }
+                        });
+                        if (changed) saveKeyRegistry(parsed);
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                console.warn('Không thể đọc key từ localStorage:', e);
+            }
+            return defaultKeys;
+        }
+
+        function loadActiveKey() {
+            var active = localStorage.getItem('tlinhx_active_key');
+            if (!active) {
+                return null;
+            }
+            var registry = loadKeyRegistry();
+            var keyInfo = registry.find(function(k) {
+                return k.key === active;
+            }) || null;
+            if (!keyInfo) return null;
+            if (isExpired(keyInfo.expiry)) {
+                keyInfo.status = 'expired';
+                saveKeyRegistry(registry);
+                localStorage.removeItem('tlinhx_active_key');
+                return null;
+            }
+            if (keyInfo.status !== 'active') return null;
+            return keyInfo;
+        }
+
+        function getKeyInfo(keyValue) {
+            var registry = loadKeyRegistry();
+            return registry.find(function(k) {
+                return k.key === keyValue;
+            }) || null;
+        }
+
+        function isExpired(expiry) {
+            if (!expiry || expiry === 'Vĩnh viễn') return false;
+            var parsed = new Date(expiry.replace(' ', 'T'));
+            return parsed.toString() === 'Invalid Date' ? false : parsed < new Date();
+        }
+
+        function saveKeyRegistry(registry) {
+            try {
+                localStorage.setItem('tlinhx_valid_keys', JSON.stringify(registry));
+            } catch (e) {
+                console.warn('Không thể lưu key registry:', e);
+            }
+        }
+
+        function exportKeysAsJson() {
+            var registry = loadKeyRegistry();
+            if (!registry.length) {
+                showToast('❗ Không có key để xuất');
+                return;
+            }
+            var data = JSON.stringify(registry, null, 2);
+            var blob = new Blob([data], {
+                type: 'application/json'
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'tlinhx_valid_keys.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('✅ Đã xuất danh sách key!');
+        }
+
+        function toggleImportKeysArea() {
+            var area = document.getElementById('importKeysArea');
+            area.style.display = area.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function importKeysFromJson() {
+            var raw = document.getElementById('importKeysJson').value.trim();
+            if (!raw) {
+                showToast('⚠️ Vui lòng dán JSON key!');
+                return;
+            }
+            try {
+                var imported = JSON.parse(raw);
+                if (!Array.isArray(imported)) throw new Error('JSON không đúng định dạng');
+                var registry = loadKeyRegistry();
+                imported.forEach(function(item) {
+                    if (item.key && item.type) {
+                        item.status = item.status || 'active';
+                        item.expiry = item.expiry || 'Vĩnh viễn';
+                        registry.unshift(item);
+                    }
+                });
+                saveKeyRegistry(registry);
+                renderValidKeys();
+                document.getElementById('importKeysJson').value = '';
+                showToast('✅ Nhập key thành công!');
+            } catch (e) {
+                showToast('❌ JSON không hợp lệ!');
+            }
+        }
+
+        function handleImportFile(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('importKeysJson').value = e.target.result;
+                importKeysFromJson();
+            };
+            reader.readAsText(file);
+        }
+
+        function renderValidKeys() {
+            var registry = loadKeyRegistry();
+            var totalCount = registry.length;
+            var activeCount = registry.filter(function(k) {
+                return k.status === 'active' && !isExpired(k.expiry);
+            }).length;
+            var expiredCount = registry.filter(function(k) {
+                return k.status !== 'active' || isExpired(k.expiry);
+            }).length;
+            document.getElementById('toolKeyStats').innerHTML = '<span><strong>Tổng key:</strong> ' + totalCount + '</span><span><strong>Hoạt động:</strong> ' + activeCount + '</span><span><strong>Hết hạn:</strong> ' + expiredCount + '</span>';
+            var html = '';
+            var searchText = document.getElementById('toolKeySearch').value.trim().toLowerCase();
+            var filterStatus = document.getElementById('toolFilterStatus').value;
+            if (!registry.length) {
+                html = '<tr><td colspan="6" style="padding:12px; color:#bbb;">Không có key hợp lệ trong hệ thống.</td></tr>';
+            } else {
+                registry.forEach(function(k) {
+                    var expired = isExpired(k.expiry);
+                    var statusCode = expired || k.status !== 'active' ? 'expired' : 'active';
+                    var status = statusCode === 'active' ? '🟢 Hoạt động' : '🔴 Hết hạn';
+                    var rowClass = expired ? 'expired-row' : '';
+                    var searchTarget = (k.key + ' ' + k.user + ' ' + k.package + ' ' + k.type).toLowerCase();
+                    if (searchText && searchTarget.indexOf(searchText) === -1) return;
+                    if (filterStatus !== 'all' && statusCode !== filterStatus) return;
+                    html += '<tr class="' + rowClass + '">';
+                    html += '<td style="padding:10px;"><code>' + k.key + '</code></td>';
+                    html += '<td style="padding:10px;">' + (k.package || '-') + '</td>';
+                    html += '<td style="padding:10px;">' + (k.user || '-') + '</td>';
+                    html += '<td style="padding:10px;">' + (k.expiry || 'Vĩnh viễn') + '</td>';
+                    html += '<td style="padding:10px;" class="status-' + statusCode + '">' + status + '</td>';
+                    html += '<td style="padding:10px;"><button class="btn-action" onclick="activateKeyFromList(\'' + k.key + '\')">Kích hoạt</button></td>';
+                    html += '</tr>';
+                });
+            }
+            document.getElementById('validKeysTable').innerHTML = html;
+        }
+
+        function activateKeyFromList(key) {
+            document.getElementById('inputKey').value = key;
+            activateKey();
+        }
+
+        function copyKeyToInput(key) {
+            document.getElementById('inputKey').value = key;
+            showToast('📥 Key đã được điền vào ô nhập.');
+        }
+
+        function removeExpiredKeys() {
+            var registry = loadKeyRegistry();
+            var kept = registry.filter(function(k) {
+                return !(k.status !== 'active' || isExpired(k.expiry));
+            });
+            if (kept.length === registry.length) {
+                showToast('✅ Không có key expired để xóa.');
+                return;
+            }
+            saveKeyRegistry(kept);
+            renderValidKeys();
+            showToast('🧹 Đã xóa key expired.');
+        }
+
+        function renderActivationStatus(activeKey) {
+            var statusText = document.getElementById('statusText');
+            var typeText = document.getElementById('statusType');
+            var expiryText = document.getElementById('statusExpiry');
+
+            if (!activeKey) {
+                statusText.innerText = 'Key chưa kích hoạt';
+                statusText.style.background = '';
+                statusText.style.color = '';
+                typeText.style.display = 'none';
+                expiryText.style.display = 'none';
+                document.getElementById('toolPanel').classList.remove('active');
+                document.getElementById('activeKeyDisplay').innerText = '-';
+                document.getElementById('activeStatus').innerText = 'Chưa kích hoạt';
+                document.getElementById('activePackage').innerText = '-';
+                document.getElementById('activeExpiry').innerText = '-';
+                return;
+            }
+
+            statusText.innerText = 'Key hợp lệ';
+            statusText.style.background = 'rgba(0, 255, 136, 0.08)';
+            statusText.style.color = '#b9ffcc';
+            typeText.style.display = 'inline-block';
+            expiryText.style.display = 'inline-block';
+            typeText.innerText = activeKey.type;
+            expiryText.innerText = activeKey.expiry;
+            document.getElementById('toolPanel').classList.add('active');
+            document.getElementById('activeKeyDisplay').innerText = activeKey.key;
+            document.getElementById('activeStatus').innerText = 'Đã kích hoạt';
+            document.getElementById('activePackage').innerText = activeKey.package;
+            document.getElementById('activeExpiry').innerText = activeKey.expiry;
+            appendLog('✅ Key đã kích hoạt: ' + activeKey.key);
+        }
+
+        function activateKey() {
+            var input = document.getElementById('inputKey');
+            var value = input.value.trim();
+            if (!value) {
+                showToast('⚠️ Vui lòng nhập key!');
+                return;
+            }
+            var keyInfo = getKeyInfo(value);
+            if (!keyInfo) {
+                showToast('❌ Key không hợp lệ hoặc chưa được tạo.');
+                document.getElementById('toolPanel').classList.remove('active');
+                return;
+            }
+            if (keyInfo.status !== 'active') {
+                showToast('⚠️ Key đã hết hạn hoặc đã bị thu hồi.');
+                return;
+            }
+            localStorage.setItem('tlinhx_active_key', keyInfo.key);
+            renderActivationStatus(keyInfo);
+            showToast('✅ Kích hoạt thành công!');
+        }
+
+        function clearActiveKey() {
+            localStorage.removeItem('tlinhx_active_key');
+            document.getElementById('inputKey').value = '';
+            renderActivationStatus(null);
+            showToast('✅ Đã xóa key đang dùng.');
+        }
+
+        function openFacebook() {
+            window.open('https://www.facebook.com', '_blank');
+        }
+
+        function appendLog(message) {
+            var log = document.createElement('div');
+            log.className = 'log-line';
+            var date = new Date();
+            var timestamp = date.getHours().toString().padStart(2, '0') + ':' + date.getMinutes().toString().padStart(2, '0');
+            log.innerText = '[' + timestamp + '] ' + message;
+            var logArea = document.getElementById('toolLog');
+            logArea.appendChild(log);
+            if (logArea.children.length > 12) {
+                logArea.removeChild(logArea.children[0]);
+            }
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function showToast(msg) {
+            var toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
+
+        function copyInstructions() {
+            var text = '1) Cài Tampermonkey hoặc tiện ích userscript trên trình duyệt.\n2) Tạo script mới và dán nội dung file src hello kitty.js.\n3) Nhập key đã kích hoạt vào tool này.\n4) Mở Facebook và chạy tool.';
+            navigator.clipboard.writeText(text);
+            showToast('✅ Đã sao chép hướng dẫn!');
+        }
+
+        function initPage() {
+            var activeKey = loadActiveKey();
+            renderActivationStatus(activeKey);
+            document.getElementById('activateBtn').onclick = activateKey;
+            document.getElementById('clearKeyBtn').onclick = clearActiveKey;
+            document.getElementById('openFacebookBtn').onclick = openFacebook;
+            document.getElementById('copyInstructionBtn').onclick = copyInstructions;
+            document.getElementById('refreshKeysBtn').onclick = renderValidKeys;
+            document.getElementById('clearExpiredBtn').onclick = removeExpiredKeys;
+            document.getElementById('exportKeysBtn').onclick = exportKeysAsJson;
+            document.getElementById('toggleImportBtn').onclick = toggleImportKeysArea;
+            document.getElementById('importKeysBtn').onclick = importKeysFromJson;
+            document.getElementById('importKeysFileBtn').onclick = function() {
+                document.getElementById('importKeysFile').click();
+            };
+            document.getElementById('importKeysFile').onchange = handleImportFile;
+            document.getElementById('toolKeySearch').oninput = renderValidKeys;
+            document.getElementById('toolFilterStatus').onchange = renderValidKeys;
+            document.getElementById('openKeygenBtn').onclick = function() {
+                window.open('keygen.html', '_blank');
+            };
+            var theme = localStorage.getItem('tlinh_theme') || 'dark';
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            document.getElementById('themeToggle').onclick = function() {
+                var lightMode = document.body.classList.toggle('light-mode');
+                this.innerHTML = lightMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+                localStorage.setItem('tlinh_theme', lightMode ? 'light' : 'dark');
+            };
+            renderValidKeys();
+            appendLog('🚀 Trang Tool Runner sẵn sàng.');
+            setInterval(function() {
+                var actions = ['Đang kiểm tra trạng thái key...', 'Sẵn sàng chạy tool Facebook.', 'Chuẩn bị hướng dẫn kích hoạt.', 'Tải dữ liệu key từ localStorage.'];
+                appendLog(actions[Math.floor(Math.random() * actions.length)]);
+            }, 8500);
+        }
+
+        window.onload = initPage;
+    </script>
+</body>
+
+</html>

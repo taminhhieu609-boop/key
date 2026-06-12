@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TLinh Ultimate - Tool Facebook Report | Bán & Cho Thuê #1 Việt Nam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        /* ===== VARIABLES ===== */
+        
+         :root {
+            --bg-gradient: radial-gradient(ellipse at top, #0a0a2a, #000000);
+            --card-bg: linear-gradient(145deg, rgba(18, 12, 28, 0.95), rgba(10, 6, 18, 0.98));
+            --text-primary: #fff;
+            --text-secondary: #e0b0c8;
+            --accent: #ff4d88;
+            --accent-hover: #ff1a66;
+            --border-color: rgba(255, 77, 136, 0.4);
+            --log-bg: #02010a;
+            --log-text: #bbaacc;
+        }
+        
+        body.light-mode {
+            --bg-gradient: radial-gradient(ellipse at top, #f0f0f0, #ffffff);
+            --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.98));
+            --text-primary: #1a1a2a;
+            --text-secondary: #4a2a38;
+            --accent: #ff4d88;
+            --border-color: rgba(255, 77, 136, 0.3);
+            --log-bg: #f0f0f0;
+            --log-text: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Orbitron', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            padding: 1rem 2rem 3rem;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #1a1a2a;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 2rem;
+            border-radius: 80px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #ff99cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+        /* Dark mode toggle */
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        /* Live Chat Button */
+        
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(255, 77, 136, 0.5);
+            transition: 0.3s;
+        }
+        
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chat-header {
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+        }
+        
+        .chat-input-area {
+            display: flex;
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 8px;
+            background: #1a1a2a;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            color: white;
+        }
+        
+        .chat-send {
+            background: var(--accent);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: var(--accent);
+            margin-left: auto;
+            text-align: right;
+        }
+        
+        .message.admin {
+            background: #2a2a3a;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 1.5rem 0 2rem;
+        }
+        
+        .badge-god {
+            background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+            padding: 6px 20px;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(255, 77, 136, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 136, 0.5);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 77, 136, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 77, 136, 0);
+            }
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffb3d9, var(--accent), #ff99cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sub-god {
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            display: inline-block;
+            padding: 0.4rem 1.5rem;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .countdown {
+            background: linear-gradient(145deg, #1a1228, #0f0818);
+            border-radius: 60px;
+            padding: 0.8rem 1.5rem;
+            display: inline-flex;
+            gap: 1rem;
+            margin: 1.5rem auto;
+            border: 1px solid var(--accent);
+        }
+        
+        .countdown-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            font-family: monospace;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 2rem 0 1rem;
+            background: linear-gradient(135deg, #ff99cc, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 77, 136, 0.18);
+            border-radius: 1.2rem;
+            padding: 1.4rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s, background 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            background: rgba(255, 77, 136, 0.1);
+        }
+        
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+        }
+        
+        .feature-card h4 {
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+        
+        .feature-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #d3b2cf;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 25px 40px -12px #ff4d8860;
+        }
+        
+        .card-header {
+            background: linear-gradient(120deg, rgba(255, 77, 136, 0.15), rgba(255, 100, 150, 0.05));
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 153, 187, 0.2);
+            position: relative;
+        }
+        
+        .hot-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(90deg, #ff3366, #ff6699);
+            padding: 3px 12px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .card-header i {
+            font-size: 3rem;
+            color: #ff6699;
+            background: rgba(255, 255, 255, 0.05);
+            width: 75px;
+            height: 75px;
+            line-height: 75px;
+            border-radius: 50%;
+            margin-bottom: 0.8rem;
+        }
+        
+        .price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ff80b3;
+        }
+        
+        .old-price {
+            font-size: 0.9rem;
+            text-decoration: line-through;
+            color: #888;
+            margin-left: 8px;
+        }
+        
+        .btn-buy {
+            display: block;
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            color: white;
+            text-align: center;
+            border: none;
+            transition: 0.3s;
+        }
+        
+        .btn-buy:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px var(--accent);
+        }
+        
+        .rental-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .rental-card {
+            background: var(--card-bg);
+            border-radius: 1.2rem;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .rental-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        
+        .rental-icon {
+            font-size: 1.8rem;
+            color: #ff6699;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rental-duration {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ff99cc;
+        }
+        
+        .rental-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #ff4d88;
+        }
+        
+        .btn-rent {
+            background: linear-gradient(95deg, var(--accent), #b8124f);
+            border: none;
+            width: 100%;
+            padding: 6px;
+            font-weight: 700;
+            border-radius: 40px;
+            color: white;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .dashboard-god {
+            background: rgba(8, 5, 18, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid rgba(255, 128, 179, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            color: #ff99cc;
+        }
+        
+        .log-area {
+            background: var(--log-bg);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            height: 100px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.7rem;
+        }
+        
+        .log-line {
+            color: var(--log-text);
+            border-left: 3px solid var(--accent);
+            padding-left: 8px;
+            margin: 4px 0;
+        }
+        
+        .review-slider {
+            margin: 2rem 0;
+        }
+        
+        .swiper-slide {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.2rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .review-stars {
+            color: #ffaa44;
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .faq-item {
+            background: rgba(18, 12, 28, 0.8);
+            border-radius: 1rem;
+            padding: 1rem;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+        
+        .faq-question {
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 150px;
+            margin-top: 0.8rem;
+        }
+        
+        .affiliate-banner {
+            background: linear-gradient(135deg, #ff4d8820, #ff99cc20);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+            border: 2px dashed var(--accent);
+            margin: 1.5rem 0;
+        }
+        
+        .affiliate-code {
+            background: #1a1a2a;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin: 0.5rem 0;
+            font-family: monospace;
+            cursor: pointer;
+        }
+        
+        .support-form {
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .support-form input,
+        .support-form textarea,
+        .support-form select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #1a1a2a;
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            color: white;
+            font-family: inherit;
+        }
+        
+        .support-form textarea {
+            border-radius: 20px;
+            resize: vertical;
+        }
+        
+        .btn-submit {
+            background: var(--accent);
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .footer {
+            background: rgba(8, 5, 18, 0.9);
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1a1228, #0f0818);
+            max-width: 450px;
+            width: 90%;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+        
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            background: #221a30;
+            border: 1px solid #ff6699;
+            border-radius: 50px;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            z-index: 3000;
+            animation: fadeInOut 3s ease;
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            15% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            85% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        @media (max-width: 780px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .rental-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .container {
+                padding: 1rem;
+            }
+            .chat-window {
+                width: 300px;
+                right: 10px;
+                bottom: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo"><i class="fas fa-infinity"></i> TLinhX | ULTIMATE</div>
+            <div class="nav-links">
+                <a onclick="scrollToSection('home')">HOME</a>
+                <a onclick="scrollToSection('buy')">MUA TOOL</a>
+                <a onclick="scrollToSection('rent')">THUÊ KEY</a>
+                <a href="tool.html">KÍCH HOẠT TOOL</a>
+                <a onclick="scrollToSection('reviews')">REVIEW</a>
+                <a onclick="scrollToSection('support')">HỖ TRỢ</a>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </div>
+        </nav>
+
+        <div id="home">
+            <div class="hero">
+                <div class="badge-god"><i class="fas fa-skull"></i> ULTIMATE POWER</div>
+                <h1>🎀 TLinhX <span style="color:#ff4d88;">Ultimate Suite</span> <span style="font-size:1.5rem;">⚡ v11.0</span></h1>
+                <div class="sub-god"><i class="fas fa-brain"></i>TOOL RIP FACEBOOK </div>
+                <div style="margin-top:1.5rem;"><a href="tool.html" style="display:inline-block; background:linear-gradient(95deg, #ff4d88, #b8124f); padding:14px 24px; border-radius:50px; color:white; font-weight:700; text-decoration:none;">🚀 MỞ TRANG KÍCH HOẠT TOOL</a></div>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-robot"></i>
+                <h4>AI Tự động</h4>
+                <p>Hệ thống chạy tự động 24/7, tự động cập nhật XPath và tối ưu báo cáo.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Anti-Ban & Bảo Mật</h4>
+                <p>Giảm rủi ro bị khóa tài khoản bằng cơ chế ngẫu nhiên và cấu hình an toàn.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-sync-alt"></i>
+                <h4>Tự động cập nhật</h4>
+                <p>Cập nhật phiên bản và XPath mới nhất mỗi khi mở tool, không cần thao tác thủ công.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h4>Hiệu suất cao</h4>
+                <p>Chạy nhanh hơn, ổn định hơn và xử lý hàng ngàn báo cáo mỗi phiên.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Ngày</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Giờ</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Phút</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Giây</div>
+                </div>
+            </div>
+            <p style="font-size:0.8rem;">🎉 FLASH SALE - Giảm 30% còn 3 ngày!</p>
+        </div>
+
+        <div class="dashboard-god">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.8rem;"><span><i class="fas fa-chart-line"></i> OMNISCIENT DASHBOARD</span><span><span style="display:inline-block; width:8px; height:8px; background:#00ff88; border-radius:50%;"></span> LIVE</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="liveReports">12,847</div>
+                    <div>Reports</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="liveLoops">521</div>
+                    <div>Loops</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="liveSuccess">99.7%</div>
+                    <div>Success</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="liveSpeed">0.9s</div>
+                    <div>Speed</div>
+                </div>
+            </div>
+            <div class="log-area" id="liveLogs">
+                <div class="log-line">🚀 ULTIMATE MODE ACTIVATED - Neural AI Online</div>
+                <div class="log-line">🔐 Quantum License System Ready</div>
+            </div>
+        </div>
+
+        <div id="buy">
+            <h2 class="section-title"><i class="fas fa-gem"></i> MUA TOOL VĨNH VIỄN</h2>
+            <div class="cards-grid">
+                <div class="product-card" data-package="DRAGON" data-price="499000">
+                    <div class="card-header"><i class="fas fa-dragon"></i>
+                        <h3>DRAGON</h3>
+                        <div class="price">499.000đ <span class="old-price">699.000đ</span></div>
+                        <div class="hot-tag">-30%</div>
+                    </div>
+                    <div class="card-body">
+                        <ul style="list-style:none;">
+                            <li>✓ 40+ bước AI</li>
+                            <li>✓ 10 kịch bản</li>
+                            <li>✓ XPath tự động</li>
+                            <li>✓ Bảo hành 6 tháng</li>
+                        </ul><button class="btn-buy">MUA NGAY</button></div>
+                </div>
+                <div class="product-card" data-package="PHOENIX PRO" data-price="899000">
+                    <div class="card-header"><i class="fas fa-phoenix"></i>
+                        <h3>PHOENIX PRO</h3>
+                        <div class="price">899.000đ <span class="old-price">1.299.000đ</span></div>
+                        <div class="hot-tag">BEST</div>
+                    </div>
+                    <div class="card-body">
+                        <ul style="list-style:none;">
+                            <li>✓ All Dragon + 85 bước</li>
+                            <li>✓ Auto Meta/Celebrity</li>
+                            <li>✓ Phát hiện Die & Dừng</li>
+                            <li>✓ Support VIP 24/7</li>
+                        </ul><button class="btn-buy">MUA NGAY</button></div>
+                </div>
+                <div class="product-card" data-package="GOD TIER" data-price="1799000">
+                    <div class="card-header"><i class="fas fa-crown"></i>
+                        <h3>GOD TIER</h3>
+                        <div class="price">1.799.000đ <span class="old-price">2.499.000đ</span></div>
+                        <div class="hot-tag">LEGEND</div>
+                    </div>
+                    <div class="card-body">
+                        <ul style="list-style:none;">
+                            <li>✓ Unlimited Loop + Source Code</li>
+                            <li>✓ Multi-thread 1000%</li>
+                            <li>✓ Cập nhật vĩnh viễn</li>
+                            <li>✓ Cài đặt remote</li>
+                        </ul><button class="btn-buy">MUA NGAY</button></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="rent">
+            <h2 class="section-title"><i class="fas fa-key"></i> THUÊ KEY - GIÁ RẺ NHẤT</h2>
+            <div class="rental-grid">
+                <div class="rental-card" data-duration="3 Giờ" data-price="20000">
+                    <div class="rental-icon"><i class="fas fa-clock"></i></div>
+                    <div class="rental-duration">3 Giờ</div>
+                    <div class="rental-price">20.000đ</div><button class="btn-rent">THUÊ NGAY</button></div>
+                <div class="rental-card" data-duration="1 Ngày" data-price="50000">
+                    <div class="rental-icon"><i class="fas fa-sun"></i></div>
+                    <div class="rental-duration">1 Ngày</div>
+                    <div class="rental-price">50.000đ</div><button class="btn-rent">THUÊ NGAY</button></div>
+                <div class="rental-card" data-duration="1 Tuần" data-price="100000">
+                    <div class="rental-icon"><i class="fas fa-calendar-week"></i></div>
+                    <div class="rental-duration">1 Tuần</div>
+                    <div class="rental-price">100.000đ</div><button class="btn-rent">THUÊ NGAY</button></div>
+                <div class="rental-card" data-duration="1 Tháng" data-price="200000">
+                    <div class="rental-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <div class="rental-duration">1 Tháng</div>
+                    <div class="rental-price">200.000đ</div><button class="btn-rent">THUÊ NGAY</button></div>
+                <div class="rental-card" data-duration="Vĩnh Viễn" data-price="300000">
+                    <div class="rental-icon"><i class="fas fa-infinity"></i></div>
+                    <div class="rental-duration">Vĩnh Viễn</div>
+                    <div class="rental-price">300.000đ</div><button class="btn-rent">THUÊ NGAY</button></div>
+                <div class="rental-card" data-duration="Full Source" data-price="700000">
+                    <div class="rental-icon"><i class="fas fa-code"></i></div>
+                    <div class="rental-duration">Full Source</div>
+                    <div class="rental-price">700.000đ</div><button class="btn-rent">MUA NGAY</button></div>
+            </div>
+        </div>
+
+        <div class="affiliate-banner">
+            <h3><i class="fas fa-chart-line"></i> CHƯƠNG TRÌNH AFFILIATE - HOA HỒNG 30%</h3>
+            <p>Giới thiệu bạn bè mua tool - Nhận ngay hoa hồng</p>
+            <div class="affiliate-code" onclick="copyAffCode()">📋 Mã giới thiệu: <strong style="color:#ff4d88;">TLINH-AFF-2026</strong> <i class="fas fa-copy"></i></div><button class="btn-rent" style="width:auto; padding:8px 25px; margin-top:8px;" onclick="showToast('Đăng ký affiliate: Gửi thông tin qua Telegram @tlinhx_aff')">ĐĂNG KÝ NGAY</button></div>
+
+        <div id="reviews">
+            <h2 class="section-title"><i class="fas fa-star"></i> KHÁCH HÀNG NÓI GÌ</h2>
+            <div class="review-slider swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">"Tool quá đỉnh, báo cáo nhanh gấp 5 lần thủ công, hỗ trợ nhiệt tình. 10/10"</div>
+                        <div class="review-author">- Nguyễn Văn Kiên</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">"Mua bản quyền xài thích thực sự, key auto gia hạn, khỏi lo nghĩ"</div>
+                        <div class="review-author">- Trần Thị Nhung</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">"Thuê giá rẻ chất lượng cao, chạy ổn định không lỗi"</div>
+                        <div class="review-author">- Lê Văn Trung</div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="review-stars">★★★★★</div>
+                        <div class="review-text">"Support VIP 24/7, có vấn đề là fix liền"</div>
+                        <div class="review-author">- Phạm Thị Mai Lan</div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> CÂU HỎI THƯỜNG GẶP</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">Tool có hoạt động trên mọi trình duyệt? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Có, tool hoạt động trên Chrome, Cốc Cốc, Edge, Firefox, Opera.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Key thuê có tự động gia hạn không? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Các gói thuê sẽ được nhắc gia hạn trước 24h và hỗ trợ qua kênh chính thức của chúng tôi.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Có hỗ trợ cài đặt không? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Có, hỗ trợ cài đặt remote miễn phí cho khách mua vĩnh viễn.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Bảo hành thế nào? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Bảo hành 6-12 tháng tùy gói, hỗ trợ update XPath miễn phí.</div>
+            </div>
+        </div>
+
+        <div id="support">
+            <h2 class="section-title"><i class="fas fa-headset"></i> HỖ TRỢ KHÁCH HÀNG</h2>
+            <div class="support-form"><input type="text" id="ticketName" placeholder="Họ tên *"><input type="text" id="ticketContact" placeholder="Telegram / Zalo / SĐT *"><select id="ticketType"><option value="support">🔧 Hỗ trợ kỹ thuật</option><option value="buy">💰 Tư vấn mua tool</option><option value="rent">🔑 Tư vấn thuê key</option><option value="affiliate">📢 Đăng ký Affiliate</option><option value="other">📝 Khác</option></select>
+                <textarea rows="3" id="ticketMessage" placeholder="Nội dung cần hỗ trợ chi tiết..."></textarea><button class="btn-submit" id="submitTicketBtn">📨 GỬI YÊU CẦU HỖ TRỢ</button></div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-links"><a onclick="showToast('Phiên bản 11.0 - Cập nhật 02/2026')">Giới thiệu</a><a onclick="showToast('Chính sách bảo mật: Không lưu thông tin khách hàng')">Chính sách</a><a onclick="showToast('Liên hệ: Telegram @tlinh_official')">Liên hệ</a></div>
+            <p>© 2026 TLinh Ultimate Suite - Công cụ xoá tài khoản hàng đầu Việt Nam</p>
+        </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div class="chat-button" id="chatButton"><i class="fas fa-comment" style="font-size: 1.8rem;"></i></div>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header"><span><i class="fas fa-headset"></i> Hỗ trợ trực tuyến</span><button id="closeChat" style="background:none; border:none; color:white; cursor:pointer;">✖</button></div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message admin">Chào bạn! Tôi có thể giúp gì cho bạn hôm nay? 😊</div>
+        </div>
+        <div class="chat-input-area"><input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..."><button class="chat-send" id="sendChat"><i class="fas fa-paper-plane"></i></button></div>
+    </div>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content"><i class="fas fa-crown" style="font-size:2rem; color:#ff4d88;"></i>
+            <h3 id="modalTitle">ĐẶT MUA</h3>
+            <div id="modalPriceDisplay" style="font-size:1.5rem; color:#ff4d88; margin:10px 0;"></div><input type="text" id="buyerName" placeholder="Họ tên *"><input type="text" id="buyerContact" placeholder="Telegram / Zalo / SĐT *"><select id="paymentMethod"><option value="bank">🏦 Chuyển khoản ngân hàng</option><option value="momo">💜 Ví MoMo</option><option value="card">📞 Thẻ cào điện thoại</option></select>
+            <button id="confirmOrderBtn" style="background:#ff4d88; border:none; padding:12px; border-radius:40px; color:white; font-weight:700; width:100%; margin-top:10px; cursor:pointer;">✅ XÁC NHẬN</button><button id="closeModalBtn" style="background:#3a2a42; border:none; padding:10px; border-radius:40px; color:white; width:100%; margin-top:8px; cursor:pointer;">❌ ĐÓNG</button></div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        new Swiper('.review-slider', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            autoplay: {
+                delay: 4000
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                }
+            }
+        });
+
+        // Dark Mode
+        let theme = localStorage.getItem('tlinhx_theme') || 'dark';
+        let isDark = theme === 'dark';
+        if (!isDark) {
+            document.body.classList.add('light-mode');
+            document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        document.getElementById('themeToggle').onclick = function() {
+            isDark = !isDark;
+            document.body.classList.toggle('light-mode', !isDark);
+            this.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('tlinhx_theme', isDark ? 'dark' : 'light');
+        };
+
+        // Live Chat
+        let chatOpen = false;
+        document.getElementById('chatButton').onclick = function() {
+            document.getElementById('chatWindow').style.display = chatOpen ? 'none' : 'flex';
+            chatOpen = !chatOpen;
+        };
+        document.getElementById('closeChat').onclick = function() {
+            document.getElementById('chatWindow').style.display = 'none';
+            chatOpen = false;
+        };
+        document.getElementById('sendChat').onclick = function() {
+            let msg = document.getElementById('chatInput').value;
+            if (msg.trim()) {
+                let msgs = document.getElementById('chatMessages');
+                let div = document.createElement('div');
+                div.className = 'message user';
+                div.innerText = msg;
+                msgs.appendChild(div);
+                msgs.scrollTop = msgs.scrollHeight;
+                document.getElementById('chatInput').value = '';
+                setTimeout(() => {
+                    let reply = document.createElement('div');
+                    reply.className = 'message admin';
+                    reply.innerText = 'Cảm ơn bạn! Hỗ trợ sẽ phản hồi sớm nhất! ⏰';
+                    msgs.appendChild(reply);
+                    msgs.scrollTop = msgs.scrollHeight;
+                }, 1000);
+            }
+        };
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('sendChat').click();
+        });
+
+        function updateCountdown() {
+            let target = new Date();
+            target.setDate(target.getDate() + 3);
+            let now = new Date();
+            let diff = target - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = 'SALE KẾT THÚC';
+                return;
+            }
+            document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        let reports = 12847,
+            loops = 521;
+        setInterval(function() {
+            reports += Math.floor(Math.random() * 8) + 2;
+            loops = Math.floor(reports / 25);
+            document.getElementById('liveReports').innerText = reports.toLocaleString();
+            document.getElementById('liveLoops').innerText = loops;
+            document.getElementById('liveSuccess').innerText = (98.2 + Math.random() * 1.5).toFixed(1) + '%';
+            document.getElementById('liveSpeed').innerText = (0.6 + Math.random() * 0.7).toFixed(1) + 's';
+            var logDiv = document.createElement('div');
+            logDiv.className = 'log-line';
+            logDiv.innerHTML = '✅ Báo cáo thành công #' + reports + ' - Vòng ' + loops;
+            var logArea = document.getElementById('liveLogs');
+            logArea.appendChild(logDiv);
+            if (logArea.children.length > 8) logArea.removeChild(logArea.children[0]);
+            logArea.scrollTop = logArea.scrollHeight;
+        }, 4000);
+
+        var faqItems = document.querySelectorAll('.faq-item');
+        for (var i = 0; i < faqItems.length; i++) {
+            faqItems[i].addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        }
+
+        function showToast(msg) {
+            var toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
+        window.copyAffCode = function() {
+            navigator.clipboard.writeText('TLINH-AFF-2026');
+            showToast('✅ Đã copy mã giới thiệu!');
+        };
+
+        function scrollToSection(id) {
+            var el = document.getElementById(id);
+            if (el) el.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+        window.scrollToSection = scrollToSection;
+
+        var modal = document.getElementById('orderModal');
+        var modalTitle = document.getElementById('modalTitle');
+        var modalPrice = document.getElementById('modalPriceDisplay');
+        var currentOrder = {
+            name: '',
+            price: 0,
+            type: ''
+        };
+        var buyBtns = document.querySelectorAll('.btn-buy');
+        for (var i = 0; i < buyBtns.length; i++) {
+            buyBtns[i].addEventListener('click', function(e) {
+                var card = this.closest('.product-card');
+                if (card) {
+                    var pkg = card.getAttribute('data-package');
+                    var price = parseInt(card.getAttribute('data-price'));
+                    currentOrder = {
+                        name: pkg,
+                        price: price,
+                        type: 'MUA VĨNH VIỄN'
+                    };
+                    modalTitle.innerText = '💎 MUA TOOL VĨNH VIỄN';
+                    modalPrice.innerText = price.toLocaleString() + 'đ';
+                    modal.style.display = 'flex';
+                }
+            });
+        }
+        var rentBtns = document.querySelectorAll('.btn-rent');
+        for (var i = 0; i < rentBtns.length; i++) {
+            rentBtns[i].addEventListener('click', function(e) {
+                var card = this.closest('.rental-card');
+                if (card) {
+                    var duration = card.getAttribute('data-duration');
+                    var price = parseInt(card.getAttribute('data-price'));
+                    var type = duration === 'Full Source' ? 'MUA FULL SOURCE' : 'THUÊ KEY';
+                    currentOrder = {
+                        name: duration,
+                        price: price,
+                        type: type
+                    };
+                    modalTitle.innerText = type === 'MUA FULL SOURCE' ? '💻 MUA FULL SOURCE' : '🔑 THUÊ KEY';
+                    modalPrice.innerText = price.toLocaleString() + 'đ';
+                    modal.style.display = 'flex';
+                }
+            });
+        }
+        document.getElementById('confirmOrderBtn').onclick = function() {
+            var name = document.getElementById('buyerName').value.trim();
+            var contact = document.getElementById('buyerContact').value.trim();
+            var payment = document.getElementById('paymentMethod').value;
+            if (!name || !contact) {
+                showToast('❌ Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            var paymentMsg = {
+                bank: 'MB Bank: 0385022809 - Tạ Quang Linh',
+                momo: 'MoMo: 0385022809 - Tạ Quang Linh',
+                card: 'Thẻ cào Viettel/Vinaphone/Mobifone'
+            };
+            var demoKey = 'TLINH-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+            alert('🎉 CẢM ƠN BẠN ĐÃ ĐẶT HÀNG!\n\n📦 ' + currentOrder.type + ': ' + currentOrder.name + '\n💰 Giá: ' + currentOrder.price.toLocaleString() + 'đ\n💳 Thanh toán: ' + paymentMsg[payment] + '\n🔑 Key dùng thử: ' + demoKey + '\n📩 Sau khi thanh toán, key chính thức sẽ được gửi qua ' + contact);
+            modal.style.display = 'none';
+            document.getElementById('buyerName').value = '';
+            document.getElementById('buyerContact').value = '';
+        };
+        document.getElementById('closeModalBtn').onclick = function() {
+            modal.style.display = 'none';
+        };
+        window.onclick = function(e) {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+        document.getElementById('submitTicketBtn').onclick = function() {
+            var name = document.getElementById('ticketName').value.trim();
+            var contact = document.getElementById('ticketContact').value.trim();
+            if (!name || !contact) {
+                showToast('❌ Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+            showToast('📨 Yêu cầu của bạn đã được gửi! Hỗ trợ sẽ liên hệ trong 15 phút.');
+            document.getElementById('ticketName').value = '';
+            document.getElementById('ticketContact').value = '';
+            document.getElementById('ticketMessage').value = '';
+        };
+    </script>
+</body>
+
+</html>
