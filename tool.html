@@ -775,6 +775,23 @@
                 var actions = ['Đang kiểm tra trạng thái key...', 'Sẵn sàng chạy tool Facebook.', 'Chuẩn bị hướng dẫn kích hoạt.', 'Tải dữ liệu key từ localStorage.'];
                 appendLog(actions[Math.floor(Math.random() * actions.length)]);
             }, 8500);
+            // postMessage listener to support userscript validation fallback
+            window.addEventListener('message', function(ev) {
+                try {
+                    const data = ev.data || {};
+                    if (!data || data.type !== 'TLINH_VALIDATE') return;
+                    const key = (data.key || '').toString();
+                    const info = getKeyInfo(key);
+                    const valid = !!(info && info.status === 'active' && !isExpired(info.expiry));
+                    ev.source.postMessage({
+                        type: 'TLINH_VALIDATE_RESPONSE',
+                        key: key,
+                        valid: valid
+                    }, ev.origin || '*');
+                } catch (e) {
+                    console.warn('pm validate error (tool):', e);
+                }
+            }, false);
         }
 
         window.onload = initPage;
